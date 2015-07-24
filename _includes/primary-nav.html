@@ -1,0 +1,28 @@
+<header>
+	<h1>
+		<a href="/">
+			<img src="/img/logo.svg" alt="The Startup Stack" width="100">
+		</a>
+    <p>The Startup Stack</p>
+	</h1>
+
+	<nav>
+		<ul>
+			{% assign url = page.url %}
+			{% if url == "/" %}
+				{% assign url = "/overview/welcome/" %}
+			{% endif %}
+			{% for item in site.collections %}
+				{% assign collection = item[1] %}
+				{% if collection.output %}
+					{% assign parts = url | split: "/" %}
+					<li class="nav-item top-level {% if parts[1] == collection.active_prefix %}current{% endif %}">
+						{% assign items = collection.docs | sort: 'order' %}
+						<a href="{{ items.first.url }}">{{ collection.title }}</a>
+						{% include secondary-nav-items.html items=items %}
+					</li>
+				{% endif %}
+			{% endfor %}
+		</ul>
+	</nav>
+</header>

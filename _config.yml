@@ -1,0 +1,67 @@
+# Site title and subtitle. This is used in _includes/header.html
+title: 'the-startup-stack'
+subtitle: 'Production ready and proven stack for startups'
+
+plugins: _plugins
+
+# if you wish to integrate disqus on pages set your shortname here
+disqus_shortname: ''
+
+# if you use google analytics, add your tracking id here
+google_analytics_id: 'UA-65131044-1'
+
+# URL to source code, used in _includes/footer.html
+codeurl: 'https://github.com/the-startup-stack/the-startup-stack.com'
+
+# Keep as an empty string if served up at the root. If served up at a specific
+# path (e.g. on GitHub pages) leave off the trailing slash, e.g. /my-project
+baseurl: ''
+
+# Dates are not included in permalinks
+permalink: none
+
+# Syntax highlighting
+highlighter: pygments
+
+# Since these are pages, it doesn't really matter
+future: true
+
+# Exclude non-site files
+exclude: ['bin', 'README.md']
+
+# Use the redcarpet Markdown renderer
+markdown: redcarpet
+redcarpet:
+    extensions: [
+        'no_intra_emphasis',
+        'fenced_code_blocks',
+        'autolink',
+        'strikethrough',
+        'superscript',
+        'with_toc_data',
+        'tables',
+        'hardwrap'
+    ]
+
+collections:
+  overview:
+    title: Overview
+    permalink: /overview/:title/
+    active_prefix: overview
+    output: true
+  getting_started:
+    title: Getting Started
+    permalink: /getting_started/:title/
+    active_prefix: getting_started
+    output: true
+  bootstrapping:
+    title: Bootstrapping
+    permaling: /bootstrapping/:title/
+    active_prefix: bootstrapping
+    output: true
+
+defaults:
+- scope:
+    path: ""
+  values:
+    layout: docs
