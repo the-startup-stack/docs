@@ -55,27 +55,27 @@ The output should be something like this:
 
 ```bash
 + aws_instance.web
-    ami:                        "" => "ami-7f675e4f"
-    availability_zone:          "" => "<computed>"
-    ebs_block_device.#:         "" => "<computed>"
-    ephemeral_block_device.#:   "" => "<computed>"
-    instance_type:              "" => "t2.micro"
-    key_name:                   "" => "production"
-    placement_group:            "" => "<computed>"
-    private_dns:                "" => "<computed>"
-    private_ip:                 "" => "<computed>"
-    public_dns:                 "" => "<computed>"
-    public_ip:                  "" => "<computed>"
-    root_block_device.#:        "" => "<computed>"
-    security_groups.#:          "" => "1"
-    security_groups.3814588639: "" => "default"
-    source_dest_check:          "" => "1"
-    subnet_id:                  "" => "<computed>"
-    tags.#:                     "" => "1"
-    tags.Name:                  "" => "chef"
-    tenancy:                    "" => "<computed>"
-    user_data:                  "" => "61d3767e56629bf51d35c0ba00d679fd66667607"
-    vpc_security_group_ids.#:   "" => "<computed>"
+    ami:                       "" => "ami-7f675e4f"
+    availability_zone:         "" => "<computed>"
+    ebs_block_device.#:        "" => "<computed>"
+    ephemeral_block_device.#:  "" => "<computed>"
+    instance_type:             "" => "t2.micro"
+    key_name:                  "" => "production"
+    placement_group:           "" => "<computed>"
+    private_dns:               "" => "<computed>"
+    private_ip:                "" => "<computed>"
+    public_dns:                "" => "<computed>"
+    public_ip:                 "" => "<computed>"
+    root_block_device.#:       "" => "<computed>"
+    security_groups.#:         "" => "1"
+    security_groups.856292532: "" => "external_connection"
+    source_dest_check:         "" => "1"
+    subnet_id:                 "" => "<computed>"
+    tags.#:                    "" => "1"
+    tags.Name:                 "" => "chef"
+    tenancy:                   "" => "<computed>"
+    user_data:                 "" => "61d3767e56629bf51d35c0ba00d679fd66667607"
+    vpc_security_group_ids.#:  "" => "<computed>"
 
 + aws_security_group.default
     description:                          "" => "Default Security Group"
@@ -95,14 +95,14 @@ The output should be something like this:
     ingress.2214680975.security_groups.#: "" => "0"
     ingress.2214680975.self:              "" => "0"
     ingress.2214680975.to_port:           "" => "80"
-    ingress.458586017.cidr_blocks.#:      "" => "1"
-    ingress.458586017.cidr_blocks.0:      "" => "YOUR_IP_ADDRESS/0"
-    ingress.458586017.from_port:          "" => "22"
-    ingress.458586017.protocol:           "" => "tcp"
-    ingress.458586017.security_groups.#:  "" => "0"
-    ingress.458586017.self:               "" => "0"
-    ingress.458586017.to_port:            "" => "22"
-    name:                                 "" => "default"
+    ingress.4178298166.cidr_blocks.#:     "" => "1"
+    ingress.4178298166.cidr_blocks.0:     "" => "YOUR_IP_ADDRESS/32"
+    ingress.4178298166.from_port:         "" => "22"
+    ingress.4178298166.protocol:          "" => "tcp"
+    ingress.4178298166.security_groups.#: "" => "0"
+    ingress.4178298166.self:              "" => "0"
+    ingress.4178298166.to_port:           "" => "22"
+    name:                                 "" => "external_connection"
     owner_id:                             "" => "<computed>"
     vpc_id:                               "" => "<computed>"
 ```
@@ -110,7 +110,17 @@ The output should be something like this:
 Now that we see that the plan works, we can bootstrap out chef server.
 
 ```bash
-
+terraform apply -var key_name=production -var your_ip_address=$MY_IP
 ```
+
+This command will do the following
+
+1. Create a security group and allow you to SSH into server from the IP address you are currently in.
+2. Create the instance
+3. Download chef server to the instance and install it.
+
+Unfortunately, in order to finish the installation of the chef server, there are more manual actions needed, this is sub-optimal and definitely not something you will see often here but hey, you only do it once. :)
+
+
 
 

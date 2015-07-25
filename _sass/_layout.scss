@@ -335,8 +335,14 @@ header h1 {
     max-width: 110%;
     margin-left: -5%;
     text-align: center;
+    background-color:#efefef;
+    @include rounded(4px);
+    .caption-wrapper {
+        padding: 8px;
+        display: block;
+    }
     img {
-        @include rounded(4px);
+
     }
     .caption-text {
         font-size: 12px;

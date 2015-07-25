@@ -49,7 +49,6 @@ Go here
 
 *this is assuming you are using `us-west-2` as the region*
 
-
 I usually create multiple key pairs for environments and not a single one.
 
 For example, right off the bat I usually start with 
@@ -61,6 +60,21 @@ For example, right off the bat I usually start with
 
 `test` is usually assigned to the CI servers or other machines that are running
 test tasts. The rest are also pretty self explanatory
+
+Now, create your key, say you create `production` first. Once you create it you will be able to download it.
+
+I usually put my keys in the `~/.pem` directory.
+
+So, you downloaded `production.pem.txt` to `~/Downloads` and now, lets move it to the right place.
+
+```bash
+cd ~/Downloads
+mkdir ~/.pem
+mv production.pem.txt ~/.pem/production.pem
+chmod 600 ~/.pem/production.pem
+```
+
+The `chmod` part here is very important, if you don't do it, you will get a warning like `WARNING: UNPROTECTED PRIVATE KEY FILE!`.
 
 ## User Policy
 
