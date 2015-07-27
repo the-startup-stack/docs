@@ -1,4 +1,6 @@
-# the-startup-stack Docs
+<a href="http://the-startup-stack.com" style="text-align: center; display: block;">
+  ![the-startup-stack](http://aviioblog.s3.amazonaws.com/logo-black.png)
+</a>
 
 ## What is "the startup stack"
 
