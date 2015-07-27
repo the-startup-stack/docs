@@ -20,14 +20,30 @@ We use chef with Omni, which is a great way to support environments, you can pus
 
 Once you tested and verified everything is working on the staging environment you can push the cookbook to staging and use knife to run chef-client on all the instances, distirbuting the configuration change in minutes across your cluster.
 
-### Installation
+### Chef Management Console as a service
 
-As with everything, we will do it using terraform.
+Chef have a management console as a service that you can use for free. It is a great way to get you started, if you are just starting off and you just want to test things out. You might want to try that one first.
+
+Head over to [https://manage.chef.io](https://manage.chef.io) and check it out.
+
+If you do choose this path, all you need is to create your organization, your user, download the `knife.rb` to `~/.chef/knife.rb` and you are basically good to go.
+
+### On permise Installation
+
+This installation will bootstrap chef server on amazon for you, as with (almost) everything, we will do it using terraform.
 
 <div class="alert alert-info" role="alert">
-  <h4>
+
+    <p>
+      <h4>
     <strong>Heads Up</strong> Before we start, just make sure you created the KeyPair as described in <a href="/getting_started/02-get-your-keys-and-policies/">Getting Started/02-get-your-keys-and-policies</a>
     </h4>
+    </p>
+    <p>
+    <h4>
+    This is <strong>by far</strong> the most painful part of the entire stack bootstrap process. Chef pretty much did everything possible to make it this way :). Stick with it, it's an essential part of the system. Rest assured this is not a sign of things to come.
+    </h4>
+    </p>
 </div>
 
 Export your keys into env variables
@@ -107,6 +123,12 @@ The output should be something like this:
     vpc_id:                               "" => "<computed>"
 ```
 
+<div class="alert alert-warning" role="alert">
+  <h4>
+    <strong>Heads Up</strong> Before you continue applying the terraform config, make sure to look at userdata.sh in order to change the username/password settings to your preferred credentials.
+    </h4>
+</div>
+
 Now that we see that the plan works, we can bootstrap out chef server.
 
 ```bash
@@ -119,8 +141,66 @@ This command will do the following
 2. Create the instance
 3. Download chef server to the instance and install it.
 
-Unfortunately, in order to finish the installation of the chef server, there are more manual actions needed, this is sub-optimal and definitely not something you will see often here but hey, you only do it once. :)
+Once you apply, you should see the result something like this:
 
+```bash
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
 
+The state of your infrastructure has been saved to the path
+below. This state is required to modify and destroy your
+infrastructure, so keep it safe. To inspect the complete state
+use the `terraform show` command.
 
+State path: terraform.tfstate
 
+Outputs:
+
+  address = ec2-54-148-128-32.us-west-2.compute.amazonaws.com
+```
+
+As you can see the output is the public DNS for the server we just created.
+
+Usually, Chef server installation is a very manual process, however, I really did my best to make sure it's preconfigured to work properly for you right out of the gate. If it's not, please [open an issue](https://github.com/the-startup-stack/stack-cookbooks/issues/new)
+
+Now, give chef about 10 minutes to install completely, it will run multiple commands, create the users and everything you need.
+
+Now, download the validator keys
+
+```bash
+mkdir -p .chef
+scp ubuntu@SERVER_ADDRESS:/tmp/stack-validator.pem .pem
+scp ubuntu@52.11.225.151:/tmp/stack.pem .chef/stack.pem
+```
+
+After you have the keys, you need to configure knife to connect to the right server
+
+Create a file called `.chef/knife.rb`
+
+```ruby
+cwd                     = File.dirname(__FILE__)
+log_level                :debug
+log_location             STDOUT
+node_name                "stackadmin"
+client_key               "#{cwd}/stack.pem"
+validation_client_name   "startupstack-validator"
+validation_key           "#{cwd}/stack-validator.pem"
+chef_server_url          "http://SERVER_ADDRESS/organizations/startupstack"
+syntax_check_cache_path File.join(cwd,'syntax_check_cache')
+cookbook_path           [File.join(cwd,'..','site-cookbooks'), File.join(cwd,'..','cookbooks')]
+data_bag_path           File.join(cwd,'..','data_bags')
+role_path               File.join(cwd,'..','roles')
+
+cookbook_copyright "The Startup Stack"
+cookbook_email "avi@avi.io"
+
+knife[:use_sudo]              = true
+knife[:dockerfiles_path]      = "#{cwd}/../dockerfiles"
+knife[:aws_access_key_id]     = ENV.fetch('AWS_ACCESS_KEY_ID', '')
+knife[:aws_secret_access_key] = ENV.fetch('AWS_SECRET_ACCESS_KEY', '')
+```
+
+Once you save this file, you should be good to go. You can validate with this command
+
+`bin/knife client list`
+
+If this commands exits with no errors, you are good to go.

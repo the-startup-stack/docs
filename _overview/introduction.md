@@ -4,7 +4,9 @@ permalink: /
 order: 1
 ---
 
-The startup stack is an attempt on helping startup bootstrapping their stack in
+## What is the startup stack
+
+The startup stack is an attempt on helping startup bootstrap their stack in
 the cloud.
 
 While lots of startups have different technologies, often the underlying stack
