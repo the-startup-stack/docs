@@ -2,6 +2,8 @@
   ![the-startup-stack](http://aviioblog.s3.amazonaws.com/logo-black.png)
 </a>
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/the-startup-stack/general)
+
 ## What is "the startup stack"
 
 The startup stack is an attempt to have sane default, production ready and tested for just about any web-based startup out there.
