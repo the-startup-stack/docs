@@ -1,6 +1,6 @@
 ---
 title: Pro
-order: 4
+order: 5
 ---
 
 <div class="alert alert-info" role="alert">

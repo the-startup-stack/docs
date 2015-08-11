@@ -45,19 +45,40 @@ redcarpet:
 
 collections:
   overview:
+    icon: fa fa-binoculars
     title: Overview
     permalink: /overview/:title/
     active_prefix: overview
     output: true
   getting_started:
+    icon: fa fa-play
     title: Getting Started
     permalink: /getting_started/:title/
     active_prefix: getting_started
     output: true
   bootstrapping:
+    icon: fa fa-link
     title: Bootstrapping
-    permaling: /bootstrapping/:title/
+    permalink: /bootstrapping/:title/
     active_prefix: bootstrapping
+    output: true
+  stack_support:
+    icon: fa fa-sitemap
+    title: Stacks Support
+    permalink: /stack_support/:title/
+    active_prefix: stack_support
+    output: true
+  stacks:
+    icon: fa fa-bars
+    title: Stacks
+    permalink: /stacks/:title/
+    active_prefix: stacks
+    output: true
+  roadmap:
+    icon: fa fa-road
+    title: Roadmap
+    permalink: /roadmap/:title/
+    active_prefix: roadmap
     output: true
 
 defaults:

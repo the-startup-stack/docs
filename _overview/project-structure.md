@@ -1,5 +1,5 @@
 ---
-title: 04. Knowing The Project Structure
+title: Project Structure
 order: 4
 ---
 

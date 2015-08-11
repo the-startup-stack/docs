@@ -16,7 +16,7 @@ Chef server will save state of each of the nodes, allowing you to check out what
 
 ## Environment support
 
-We use chef with Omni, which is a great way to support environments, you can push cookbooks changes to staging/dev without production being affected.
+We use chef with [spork-omni](https://github.com/jonlives/knife-spork#spork-omni), which is a great way to support environments, you can push cookbooks changes to staging/dev without production being affected.
 
 Once you tested and verified everything is working on the staging environment you can push the cookbook to staging and use knife to run chef-client on all the instances, distirbuting the configuration change in minutes across your cluster.
 
@@ -33,44 +33,39 @@ If you do choose this path, all you need is to create your organization, your us
 This installation will bootstrap chef server on amazon for you, as with (almost) everything, we will do it using terraform.
 
 <div class="alert alert-info" role="alert">
-
-    <p>
-      <h4>
-    <strong>Heads Up</strong> Before we start, just make sure you created the KeyPair as described in <a href="/getting_started/02-get-your-keys-and-policies/">Getting Started/02-get-your-keys-and-policies</a>
-    </h4>
-    </p>
-    <p>
+  <p>
     <h4>
-    This is <strong>by far</strong> the most painful part of the entire stack bootstrap process. Chef pretty much did everything possible to make it this way :). Stick with it, it's an essential part of the system. Rest assured this is not a sign of things to come.
+      <strong>Heads Up!</strong> Before we start, just make sure you created the KeyPair as described in <a href="/getting_started/02-keys-and-policies/">Getting Started/02-get-your-keys-and-policies</a>
     </h4>
-    </p>
+  </p>
 </div>
 
 Export your keys into env variables
 
 ```bash
-export AWS_ACCESS_KEY=YOUR_KEY
-export AWS_SECRET_KEY=YOUR_SECRET
-export EC2_REGION=us-west-2
+  $ export AWS_ACCESS_KEY=YOUR_KEY
+  $ export AWS_SECRET_KEY=YOUR_SECRET
+  $ export EC2_REGION=us-west-2
 ```
 
-Head over to the [cookbook repo](https://github.com/the-startup-stack/stack-cookbooks), navigate into `terraform/chef`.
+Head over to the [cookbook repo](https://github.com/the-startup-stack/stack-cookbooks), clone it, then navigate into `terraform/base`.
 
 Now in order to make sure everything works. run this command 
 
-This command is assuming they key name you created earlier is called `production`, if you named it something else, please change the name in the command.
-
-The second part of the command is making sure only your public IP address will be able to ssh into the machine. This is best practice, never open SSH to the outside world.
-
 ```bash
-export $MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address: //" -e "s/<.*$//"`
-terraform plan -var key_name=production -var your_ip_address=$MY_IP
+  $ export $MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address: //" -e "s/<.*$//"`
+  $ terraform plan -var key_name=production -var your_ip_address=$MY_IP -target=aws_instance.chef
 ```
+
+This command assumes that the key name you created earlier is called `production`, if you named it something else, please change the name in the command.
+
+The first part of the command (`export MY_IP`) is making sure only your public IP address will be able to ssh into the machine. This is best practice, never open SSH to the outside world.
+
 
 The output should be something like this:
 
 ```bash
-+ aws_instance.web
++ aws_instance.chef
     ami:                       "" => "ami-7f675e4f"
     availability_zone:         "" => "<computed>"
     ebs_block_device.#:        "" => "<computed>"
@@ -125,21 +120,21 @@ The output should be something like this:
 
 <div class="alert alert-warning" role="alert">
   <h4>
-    <strong>Heads Up</strong> Before you continue applying the terraform config, make sure to look at userdata.sh in order to change the username/password settings to your preferred credentials.
+    <strong>Heads Up!</strong> Before you continue applying the terraform config, make sure to look at userdata.sh in order to change the username/password settings to your preferred credentials.
     </h4>
 </div>
 
 Now that we see that the plan works, we can bootstrap out chef server.
 
 ```bash
-terraform apply -var key_name=production -var your_ip_address=$MY_IP
+$ terraform apply -var key_name=production -var your_ip_address=$MY_IP -target=aws_instance.chef
 ```
 
 This command will do the following
 
 1. Create a security group and allow you to SSH into server from the IP address you are currently in.
 2. Create the instance
-3. Download chef server to the instance and install it.
+3. Download chef server to the instance and install it and configure it
 
 Once you apply, you should see the result something like this:
 
@@ -155,7 +150,7 @@ State path: terraform.tfstate
 
 Outputs:
 
-  address = ec2-54-148-128-32.us-west-2.compute.amazonaws.com
+  address = SERVER_ADDRESS
 ```
 
 As you can see the output is the public DNS for the server we just created.
@@ -167,9 +162,9 @@ Now, give chef about 10 minutes to install completely, it will run multiple comm
 Now, download the validator keys
 
 ```bash
-mkdir -p .chef
-scp ubuntu@SERVER_ADDRESS:/tmp/stack-validator.pem .pem
-scp ubuntu@52.11.225.151:/tmp/stack.pem .chef/stack.pem
+  $ mkdir -p .chef
+  $ scp ubuntu@SERVER_ADDRESS:/tmp/stack-validator.pem .pem
+  $ scp ubuntu@SERVER_ADDRESS:/tmp/stack.pem .chef/stack.pem
 ```
 
 After you have the keys, you need to configure knife to connect to the right server
@@ -204,3 +199,36 @@ Once you save this file, you should be good to go. You can validate with this co
 `bin/knife client list`
 
 If this commands exits with no errors, you are good to go.
+
+### Production Use
+
+In order to use chef in production it is best practice to create a signed SSL
+certificate. This is a pretty easy process on basically every registerator.
+
+Once you have your keys, it's 2 steps to install them and make chef use them.
+
+Direct your DNS server to the chef server say `chef.the-startup-stack.com`
+
+Download the `crt` and `key` file to the server
+
+Lets say you downloaded them to this location:
+
+```bash
+/var/opt/opscode/nginx/ca/chef_the_startup_stack.crt
+/var/opt/opscode/nginx/ca/chef_the_startup_stack.key
+```
+
+Edit `/etc/opscode/chef-server.rb` and put this content
+
+Note: The file should be empty before you add something to it, no worries if
+you don't see anything
+
+```bash
+nginx['ssl_certificate']  = "/var/opt/opscode/nginx/ca/chef_the_startup_stack.crt"
+nginx['ssl_certificate_key']  = "/var/opt/opscode/nginx/ca/chef_the_startup_stack.key"
+```
+
+Once chef is done configuring, you should see a green sign on chrome saying the
+certificate is configured properly
+
+{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-26-mwkam.png %}

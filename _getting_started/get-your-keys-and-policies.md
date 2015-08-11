@@ -1,5 +1,5 @@
 ---
-title: 02. Get Your Keys And Policies
+title: 02. Keys And Policies
 order: 2
 ---
 
@@ -68,10 +68,10 @@ I usually put my keys in the `~/.pem` directory.
 So, you downloaded `production.pem.txt` to `~/Downloads` and now, lets move it to the right place.
 
 ```bash
-cd ~/Downloads
-mkdir ~/.pem
-mv production.pem.txt ~/.pem/production.pem
-chmod 600 ~/.pem/production.pem
+  $ cd ~/Downloads
+  $ mkdir ~/.pem
+  $ mv production.pem.txt ~/.pem/production.pem
+  $ chmod 600 ~/.pem/production.pem
 ```
 
 The `chmod` part here is very important, if you don't do it, you will get a warning like `WARNING: UNPROTECTED PRIVATE KEY FILE!`.

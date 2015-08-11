@@ -14,7 +14,7 @@ Terraform is absolutely essential in order to manage a cluster of this size, kno
 If you are using a Mac, you can use homebrew to install it.
 
 ```bash
-  brew install terraform
+  $ brew install terraform
 ```
 
 ### Installing on other platforms

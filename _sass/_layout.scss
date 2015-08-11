@@ -5,7 +5,6 @@ header {
     top: $mobile-nav-height;
     bottom: 0;
     right: 0;
-    padding: 0 $space;
     text-align: left;
     background-color: $nav-background-color;
     overflow-y: auto;
@@ -280,11 +279,11 @@ header h1 {
         display: block;
         width: $nav-width;
         top: 0;
-        padding: $space * 2;
     }
 
     header h1 {
         display: block;
+        padding: 15px;
     }
 
     .main {
@@ -335,10 +334,7 @@ header h1 {
     max-width: 110%;
     margin-left: -5%;
     text-align: center;
-    background-color:#efefef;
-    @include rounded(4px);
     .caption-wrapper {
-        padding: 8px;
         display: block;
     }
     img {
@@ -425,4 +421,64 @@ font-size: 80%;
 
 .alert-block p + p {
   margin-top: 5px;
+}
+
+ul li.sub-menu {
+  line-height: 15px;
+  font-size: 16px;
+}
+
+li.nav-item {
+    display: block;
+    font-family: "Open Sans", sans-serif;
+}
+
+ul.sidebar-menu li {
+  line-height: 20px !important;
+}
+
+ul.sidebar-menu li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 10px 0 10px 10px;
+  font-size: 16px;
+  font-weight: 300;
+  outline: none;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+
+ul.sidebar-menu li ul.sub li a {
+  font-size: 12px;
+  padding: 0 0 0 32px;
+  line-height: 35px;
+  height: 35px;
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  color: #fff;
+  font-size: 14px;
+}
+
+li.active ul.sub {
+  display: block;
+}
+
+ul.sidebar-menu li a i {
+    font-size: 18px;
+    padding-right: 6px;
+}
+
+.sidebar-menu .fa {
+    width: 30px;
+    text-align: center;
 }
