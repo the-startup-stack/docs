@@ -13,6 +13,12 @@ to source control).
 $ openssl rand -base64 512 | tr -d '\r\n' > .chef/encryption_key
 ```
 
+Edit `knife.rb` in `.chef` directory to include this line
+
+```
+knife[:secret_file] = "#{cwd}/encryption_key"
+```
+
 Now, using this key, we will create en encrypted data bag
 
 ```
@@ -65,3 +71,5 @@ aws_secret_access_key:
   version:        1
 id:                    main
 ```
+
+
