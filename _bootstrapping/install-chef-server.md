@@ -231,4 +231,4 @@ nginx['ssl_certificate_key']  = "/var/opt/opscode/nginx/ca/chef_the_startup_stac
 Once chef is done configuring, you should see a green sign on chrome saying the
 certificate is configured properly
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-26-mwkam.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-26-mwkam.png %}

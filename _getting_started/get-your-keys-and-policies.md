@@ -9,7 +9,7 @@ the process of being verified on Amazon, you will need to get your access keys.
 The AWS access keys are API keys that allow you to access all the services on
 Amazon.  
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-23-rx34o.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-23-rx34o.png %}
 
 ## No Root Access by default
 
@@ -20,15 +20,15 @@ create an AIM user and use those access keys.
 This is a best practive in order to manage access to resources better.
 
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-23-wnhvv.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-23-wnhvv.png %}
 
 Choose a name/names for your users
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-23-nocw3.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-23-nocw3.png %}
 
 Get the keys
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-23-e55wf.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-23-e55wf.png %}
 
 You can either copy pase or download a CSV and use it to store in a vault or
 something like that.
@@ -82,13 +82,13 @@ In order for this user to be able to do anything on Amazon you will need to atta
 
 When you navigate to the user, you will see a `User ARN` field
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-24-lzip3.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-24-lzip3.png %}
 
 Copy this value and make sure you have it, since we'll need it for the next stage
 
 Now, scroll down to attach inline policies
 
-{% imgcap http://aviioblog.s3.amazonaws.com/screen-shot-2015-07-24-3ygy2.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-07-24-3ygy2.png %}
 
 Go through the custom policy.
 

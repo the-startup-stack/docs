@@ -267,7 +267,7 @@ $ bin/knife bootstrap $SERVER_IP -r "role[base],role[logger]" -E production -x u
 When chef is done, navigate to the URL (server IP or public DNS) and you should
 see this:
 
-{% imgcap https://aviioblog.s3.amazonaws.com/screen-shot-2015-08-12-10yin.png %}
+{% imgcap http://assets.avi.io/screen-shot-2015-08-12-10yin.png %}
 
 Congrats! You have a running server, you can already start shipping logs to
 this server, the firewall rules are preconfigured and everything runs smoothly.
