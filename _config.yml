@@ -74,6 +74,13 @@ collections:
     permalink: /stacks/:title/
     active_prefix: stacks
     output: true
+  support:
+    icon: fa fa-support
+    title: Support
+    permalink: /support/:title/
+    active_prefix: support
+    output: true
+
   roadmap:
     icon: fa fa-road
     title: Roadmap
