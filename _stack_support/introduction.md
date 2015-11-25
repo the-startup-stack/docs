@@ -26,7 +26,8 @@ and comes with a lot of documentation of other monitoring additions you can do.
 The reliable Graphite controls stats, shipping through StatsD so you don't
 block your apps with TCP connections.
 
-## Cluster Membership (V2)
+## Cluster Membership
 
 Since Mesos is a first class citizen in this project, cluster membership
-solution is key. This will be added in V2 (Check out Roadmap for details)
+solution is key. [Check it out
+here](/bootstrapping/02-bootstrapping-the-cluster/)
