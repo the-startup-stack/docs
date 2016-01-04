@@ -50,7 +50,7 @@ Export your keys into env variables
 
 Head over to the [cookbook repo](https://github.com/the-startup-stack/stack-cookbooks), clone it, then navigate into `terraform/base`.
 
-Now in order to make sure everything works. run this command 
+Now in order to make sure everything works. run this command
 
 ```bash
   $ export $MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address: //" -e "s/<.*$//"`
