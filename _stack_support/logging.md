@@ -149,11 +149,12 @@ server list.
 
 First, lets see what we are going to add here.
 
-Navigate to `terraform/base` and execute the following commands
+Navigate to `terraform/logger` and execute the following commands
 
 ```
 $ export MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address://" -e "s/<.*$//"`">`
-$ terraform plan -var key_name=production -var your_ip_address=$MY_IP -target=aws_instance.logger
+$ terraform get
+$ terraform plan -var key_name=production -var your_ip_address=$MY_IP
 ```
 
 If you did not complete the cluster creation (which is fine) described in [BOOTSTRAPPING THE CLUSTER](/bootstrapping/02-bootstrapping-the-cluster/) you should see something like this in the output.
@@ -253,7 +254,7 @@ Once you apply the change, it will create the server and output the public IP,
 so lets do that now and create a logstash server.
 
 ```
-terraform apply -var key_name=production -var your_ip_address=$MY_IP -target=aws_instance.logger
+terraform apply -var key_name=production -var your_ip_address=$MY_IP
 ```
 
 This will output a public IP for the logger server, now we can bootstrap our

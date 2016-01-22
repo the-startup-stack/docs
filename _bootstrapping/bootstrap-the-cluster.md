@@ -17,15 +17,16 @@ HA-Proxy bridge.
 The default installation (for now) includes a single master that has everything
 on it mesos, zookeeper and marathon
 
-In order to bootstrap the cluster go to `terraform/base` and execute the
+In order to bootstrap the cluster go to `terraform/cluster` and execute the
 following commands.
 
 ```
 $ export $MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address: //" -e "s/<.*$//"`
-$ terraform apply -var key_name=production -var your_ip_address=$MY_IP -target=aws_instance.marathon
+$ terraform get
+$ terraform apply -var key_name=production -var your_ip_address=$MY_IP
 ```
 
-This will bootstrap the server for you.
+This will start a new server instance for you.
 
 After you bootstrap the server, terraform will spit out an IP for you, you use
 this IP in order to configure the serevr with chef.
@@ -35,6 +36,6 @@ $  bin/knife bootstrap YOUR_SERVER_IP -r "role[base],role[marathon]" -E producti
 ```
 
 This will install everything and start all the services you need on that
-server. 
+server.
 
 You are now ready to deploy services using Mesos and Marathon.
