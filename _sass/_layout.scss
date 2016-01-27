@@ -50,7 +50,7 @@ nav ul + ul {
     right: 0;
     top: $mobile-nav-height;
     bottom: 0;
-    background: $body-background-color url(/img/background-repeat.png);
+    background: $body-background-color;
 }
 
 .content {
@@ -169,7 +169,7 @@ footer {
         border: 0;
         opacity: 0.6;
         position: absolute;
-        top: $mobile-nav-padding;
+        top: $mobile-nav-padding-top;
         right: $mobile-nav-padding;
 
         &:focus {
@@ -479,4 +479,8 @@ ul.sidebar-menu li a i {
 .sidebar-menu .fa {
     width: 30px;
     text-align: center;
+}
+.right-align {
+  text-align: right;
+
 }

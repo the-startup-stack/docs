@@ -13,8 +13,8 @@ module Jekyll
     #   "_bootstrapping/install-chef-server.md"
     #
     def github_path(path)
-      m = /the-startup-stack.com\/(.*)/.match(path)
-      new_path = "https://github.com/the-startup-stack/docs/#{m[1]}"
+      m = /docs.the-startup-stack.com\/(.*)/.match(path)
+      new_path = "https://github.com/the-startup-stack/docs/blob/master/#{m[1]}"
       new_path
     end
   end
