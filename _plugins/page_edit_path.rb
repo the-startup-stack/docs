@@ -1,5 +1,5 @@
 module Jekyll
-  module PagePathFilter
+  module PageEditPath
     #
     # Filters the basic path from the file path
     # This is used in order to make sure we can point to the right file on Github
@@ -12,12 +12,11 @@ module Jekyll
     # Returns
     #   "_bootstrapping/install-chef-server.md"
     #
-    def github_path(path)
+    def page_edit_path(path)
       m = /docs.the-startup-stack.com\/(.*)/.match(path)
-      new_path = "https://github.com/the-startup-stack/docs/blob/master/#{m[1]}"
-      new_path
+      "https://github.com/the-startup-stack/docs/blob/master/#{m[1]}"
     end
   end
 end
 
-Liquid::Template.register_filter(Jekyll::PagePathFilter)
+Liquid::Template.register_filter(Jekyll::PageEditPath)
