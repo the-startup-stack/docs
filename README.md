@@ -20,7 +20,7 @@ If you have something to contribute, please feel free to do so.
 
 Please be respectful and constructive with feedback you give to others, it is very demotivating to read Github comments that are disrispectful, we are all here for the love of open source, lets not forget it. Be nice!
 
-If you have Feedback/Feature requests about one of the repositories, open an issue/PR in the related project (sub-projects).  
+If you have Feedback/Feature requests about one of the repositories, open an issue/PR in the related project (sub-projects).
 When you need to ask a question or create an issue for something that is not directly related to a project (say you want a node.js stack and you want someone's help), open an issue on the docs repo right now. (In the future, I wil open a Google group or some other form of discussion forum).
 
 ### Tests
@@ -32,5 +32,9 @@ The purpose of the startup stack is to be production ready, you can run your sta
 ### Documentation
 
 Write well written docs for methods, objects and definitely for features, good docs mean less issues and less friction for everyone.
+
+### Credits
+
+* Original version of jekyll theme: [CloudCannon docs](http://docs.cloudcannon.com/)
 
 
