@@ -1,5 +1,5 @@
 ---
-title: Node.js
+title: MEAN
 order: 2
 ---
 
@@ -8,6 +8,6 @@ order: 2
     <p>
       <strong>Coming Soon!</strong>
     </p>
-    Please feel free to contribute in the <a href="https://github.com/the-startup-stack/stack-cookbooks">the cookbook repository</a>
+    Please feel free to contribute <a href="https://github.com/the-startup-stack">On github</a>
   </h4>
 </div>
