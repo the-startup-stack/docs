@@ -1,5 +1,5 @@
 ---
-title: 01. Install Chef Server
+title: Install Chef Server
 order: 1
 ---
 
