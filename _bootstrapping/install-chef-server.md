@@ -48,13 +48,14 @@ Export your keys into env variables
   $ export EC2_REGION=us-west-2
 ```
 
-Head over to the [cookbook repo](https://github.com/the-startup-stack/stack-cookbooks), clone it, then navigate into `terraform/base`.
+Head over to the [cookbook repo](https://github.com/the-startup-stack/stack-cookbooks), clone it, then navigate into `terraform/chef`.
 
 Now in order to make sure everything works. run this command
 
 ```bash
-  $ export $MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address: //" -e "s/<.*$//"`
-  $ terraform plan -var key_name=production -var your_ip_address=$MY_IP -target=aws_instance.chef
+  $ export MY_IP=`curl -s checkip.dyndns.org | sed -e "s/.*Current IP Address: //" -e "s/<.*$//"`
+  $ terraform get .
+  $ terraform plan -var key_name=production -var your_ip_address=$MY_IP
 ```
 
 This command assumes that the key name you created earlier is called `production`, if you named it something else, please change the name in the command.
