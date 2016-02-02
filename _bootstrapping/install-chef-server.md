@@ -3,22 +3,37 @@ title: Install Chef Server
 order: 1
 ---
 
-First thing you need in order to get started creating your stack is installing chef-server.
+First thing you need in order to get started creating your stack is provisioning a chef-server.
 
-## Why
+## Why?
 
 Chef server is a great way to centralize configuration across your cluster.
-The startup stack uses data bags in order to store configuration, some secrets, keys, api keys and more.
 
-## Control over your cluster
+You get a fine-grained control over what you apply to your cluster. You can
+support incremental environment changes and more.
 
 Chef server will save state of each of the nodes, allowing you to check out what's going on with each of the servers.
 
 ## Environment support
 
-We use chef with [spork-omni](https://github.com/jonlives/knife-spork#spork-omni), which is a great way to support environments, you can push cookbooks changes to staging/dev without production being affected.
+Pretty much every startup has the concept of environments (eg: production,
+staging). While you work on changing the configuration you can actually "lock"
+production on stable versions and continue working on the other environments.
 
-Once you tested and verified everything is working on the staging environment you can push the cookbook to staging and use knife to run chef-client on all the instances, distirbuting the configuration change in minutes across your cluster.
+Lets say you want to upgrade Ruby on the rails servers, you want to make sure
+nothing breaks. (of course testing is required before).
+
+You can "bump" the ruby cookbook to staging only while production servers will
+still be converged with the previous version.
+
+## Provisioning a chef server
+
+You have 2 options to converge a chef server. You can do it on-premise, which
+will install the software on one of your instances or you can use chef saas to
+do so.
+
+If you are starting off, I strongly recommend you go with the SAAS version.
+It's easy to migrate over once you want it on-premise.
 
 ### Chef Management Console as a service
 
@@ -67,56 +82,44 @@ The output should be something like this:
 
 ```bash
 + aws_instance.chef
-    ami:                       "" => "ami-7f675e4f"
-    availability_zone:         "" => "<computed>"
-    ebs_block_device.#:        "" => "<computed>"
-    ephemeral_block_device.#:  "" => "<computed>"
-    instance_type:             "" => "t2.micro"
-    key_name:                  "" => "production"
-    placement_group:           "" => "<computed>"
-    private_dns:               "" => "<computed>"
-    private_ip:                "" => "<computed>"
-    public_dns:                "" => "<computed>"
-    public_ip:                 "" => "<computed>"
-    root_block_device.#:       "" => "<computed>"
-    security_groups.#:         "" => "1"
-    security_groups.856292532: "" => "external_connection"
-    source_dest_check:         "" => "1"
-    subnet_id:                 "" => "<computed>"
-    tags.#:                    "" => "1"
-    tags.Name:                 "" => "chef"
-    tenancy:                   "" => "<computed>"
-    user_data:                 "" => "61d3767e56629bf51d35c0ba00d679fd66667607"
-    vpc_security_group_ids.#:  "" => "<computed>"
+    ami:                      "" => "ami-7f675e4f"
+    availability_zone:        "" => "<computed>"
+    ebs_block_device.#:       "" => "<computed>"
+    ephemeral_block_device.#: "" => "<computed>"
+    instance_type:            "" => "m3.large"
+    key_name:                 "" => "production"
+    placement_group:          "" => "<computed>"
+    private_dns:              "" => "<computed>"
+    private_ip:               "" => "<computed>"
+    public_dns:               "" => "<computed>"
+    public_ip:                "" => "<computed>"
+    root_block_device.#:      "" => "<computed>"
+    security_groups.#:        "" => "<computed>"
+    source_dest_check:        "" => "1"
+    subnet_id:                "" => "${module.base.default_subnet_id}"
+    tags.#:                   "" => "1"
+    tags.Name:                "" => "chef"
+    tenancy:                  "" => "<computed>"
+    user_data:                "" => "c879dc1edf4f1a52810a9d7469488cbf5ed414e5"
+    vpc_security_group_ids.#: "" => "<computed>"
 
-+ aws_security_group.default
-    description:                          "" => "Default Security Group"
-    egress.#:                             "" => "1"
-    egress.482069346.cidr_blocks.#:       "" => "1"
-    egress.482069346.cidr_blocks.0:       "" => "0.0.0.0/0"
-    egress.482069346.from_port:           "" => "0"
-    egress.482069346.protocol:            "" => "-1"
-    egress.482069346.security_groups.#:   "" => "0"
-    egress.482069346.self:                "" => "0"
-    egress.482069346.to_port:             "" => "0"
-    ingress.#:                            "" => "2"
-    ingress.2214680975.cidr_blocks.#:     "" => "1"
-    ingress.2214680975.cidr_blocks.0:     "" => "0.0.0.0/0"
-    ingress.2214680975.from_port:         "" => "80"
-    ingress.2214680975.protocol:          "" => "tcp"
-    ingress.2214680975.security_groups.#: "" => "0"
-    ingress.2214680975.self:              "" => "0"
-    ingress.2214680975.to_port:           "" => "80"
-    ingress.4178298166.cidr_blocks.#:     "" => "1"
-    ingress.4178298166.cidr_blocks.0:     "" => "YOUR_IP_ADDRESS/32"
-    ingress.4178298166.from_port:         "" => "22"
-    ingress.4178298166.protocol:          "" => "tcp"
-    ingress.4178298166.security_groups.#: "" => "0"
-    ingress.4178298166.self:              "" => "0"
-    ingress.4178298166.to_port:           "" => "22"
-    name:                                 "" => "external_connection"
-    owner_id:                             "" => "<computed>"
-    vpc_id:                               "" => "<computed>"
++ aws_security_group.chef
+    description:                        "" => "Chef Security Group"
+    egress.#:                           "" => "1"
+    egress.482069346.cidr_blocks.#:     "" => "1"
+    egress.482069346.cidr_blocks.0:     "" => "0.0.0.0/0"
+    egress.482069346.from_port:         "" => "0"
+    egress.482069346.protocol:          "" => "-1"
+    egress.482069346.security_groups.#: "" => "0"
+    egress.482069346.self:              "" => "0"
+    egress.482069346.to_port:           "" => "0"
+    ingress.#:                          "" => "<computed>"
+    name:                               "" => "chef"
+    owner_id:                           "" => "<computed>"
+    vpc_id:                             "" => "${module.base.default_vpc_id}"
+
++ module.base
+    8 resource(s)
 ```
 
 <div class="alert alert-warning" role="alert">
