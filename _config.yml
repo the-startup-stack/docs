@@ -68,6 +68,12 @@ collections:
     permalink: /stack_support/:title/
     active_prefix: stack_support
     output: true
+  databases:
+    icon: fa fa-database
+    title: Databases
+    permalink: /databases/:title/
+    active_prefix: databases
+    output: true
   stacks:
     icon: fa fa-bars
     title: Stacks

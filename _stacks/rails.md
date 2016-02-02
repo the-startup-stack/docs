@@ -1,6 +1,7 @@
 ---
 title: Ruby on Rails
 order: 1
+partial: true
 ---
 
 The Rails stack is actually an all-inclusive web-server architecture.

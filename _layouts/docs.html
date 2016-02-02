@@ -9,6 +9,24 @@ layout: default
   </div>
 
   <article class="content tk-lato article-wrap">
+
+    {% if page.partial %}
+      <div class="alert alert-info" role="alert">
+        <h4>
+          <p>
+            <strong>Partial Document</strong>
+          </p>
+          <p>
+            This document is flagged as partial / incomplete. <br />
+            It's likely a work in progress.
+          </p>
+          <p>
+            If you feel you can contribute please <a href="{{ page.path | page_edit_path }}">Edit This Page</a>
+          </p>
+        </h4>
+      </div>
+      {% endif %}
+
     {{ content }}
   </article>
 
