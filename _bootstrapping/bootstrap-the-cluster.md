@@ -1,7 +1,6 @@
 ---
 title: Bootstrapping the cluster
 order: 2
-show: false
 ---
 
 This is a completely optional stage and you can delay this to later when you

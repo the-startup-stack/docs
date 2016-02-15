@@ -25,7 +25,28 @@ layout: default
           </p>
         </h4>
       </div>
-      {% endif %}
+     {% endif %}
+
+     {% if page.prerequisites %}
+      <div class="alert alert-warning" role="alert">
+        <h4>
+          <p>
+            <strong>Prerequisites</strong>
+          </p>
+          <p>
+            In order to successfully achieve the goal of this doc, you must
+            first make sure you gone through these items:
+          </p>
+          <ul>
+            {% for item in page.prerequisites %}
+              <li>
+                {{ item | prerequisite }}
+              </li>
+            {% endfor %}
+          </ul>
+        </h4>
+      </div>
+     {% endif %}
 
     {{ content }}
   </article>
