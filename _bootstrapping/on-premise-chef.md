@@ -1,6 +1,6 @@
 ---
 title: On Premise Chef
-order: 1
+order: 100
 show: false
 prerequisites:
  - Amazon Keys /getting_started/02-keys-and-policies/

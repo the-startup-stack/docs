@@ -1,6 +1,6 @@
 ---
 title: Chef Server Certificate
-order: 1
+order: 100
 show: false
 ---
 

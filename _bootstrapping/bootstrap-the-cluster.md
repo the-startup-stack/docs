@@ -3,16 +3,18 @@ title: Bootstrapping the cluster
 order: 2
 ---
 
-This is a completely optional stage and you can delay this to later when you
-are ready to think about working in a cluster and deploying docker containers.
+## Cluster / Orchestration solution
 
-The startup stack comes ready with mesos, zookeeper, marathon and slave
-configuration in order to make sure you can get started relatively easily with
-deploying applications to a cluster.
+In order to achieve a true modern stack, we need a cluster orchestrator. This
+is achieved using [mesos](http://mesos.apache.org/), [marathon](https://mesosphere.github.io/marathon/)
+and [chronos](http://mesos.github.io/chronos/).
 
 This project will mature around these, once the project includes some
 executables it will likely come pre-configured with marathon configuration and
 HA-Proxy bridge.
+
+Each and every one of the machines in the cluster are "slaves" orchestrated by
+the master.
 
 The default installation (for now) includes a single master that has everything
 on it mesos, zookeeper and marathon
