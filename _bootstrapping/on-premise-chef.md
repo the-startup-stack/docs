@@ -46,6 +46,8 @@ chef_user_email = "ops@the-startup-stack.com"
 chef_organization_id = "thestartupstack"
 chef_organization_name = "The Startup Stack"
 domain_name = "the-startup-stack.com"
+certificate_file = "chef_the_startup_stack_com.pem"
+certificate_key = "chef_the_startup_stack_com.key"
 ```
 
 After you have all the data correctly set up, you can continue
@@ -100,77 +102,33 @@ Outputs:
 
 As you can see the output is the public DNS for the server we just created.
 
-Usually, Chef server installation is a very manual process, however, I really did my best to make sure it's preconfigured to work properly for you right out of the gate. If it's not, please [open an issue](https://github.com/the-startup-stack/stack-cookbooks/issues/new)
+Since DNS is a "complicated" decision, "the-startup-stack" doesn't really come
+with any included. In most cases you will have a previously selected one.
 
-Now, give chef about 10 minutes to install completely, it will run multiple commands, create the users and everything you need.
+All you have to do now is create an A record in your DNS for
+`chef.${your_domain}` that will point to that server.
 
-Now, download the validator keys
+The server is already configured using the username and password you
+configured, SSL you provided and it's ready to go.
 
-```bash
-  $ mkdir -p .chef
-  $ scp ubuntu@SERVER_ADDRESS:/tmp/stack-validator.pem .pem
-  $ scp ubuntu@SERVER_ADDRESS:/tmp/stack.pem .chef/stack.pem
+All you have to do now, is download the starter kit and place it in `.chef` in
+the root of the repository
+
+{% imgcap http://assets.avi.io/screen-shot-2016-02-15-5xl74.png %}
+
+This included keys for chef and a `knife.rb` that should look something like
+this
+
 ```
+# See https://docs.getchef.com/config_rb_knife.html for more information on knife configuration options
 
-After you have the keys, you need to configure knife to connect to the right server
-
-Create a file called `.chef/knife.rb`
-
-```ruby
-cwd                     = File.dirname(__FILE__)
-log_level                :debug
+current_dir = File.dirname(__FILE__)
+log_level                :info
 log_location             STDOUT
 node_name                "stackadmin"
-client_key               "#{cwd}/stack.pem"
-validation_client_name   "startupstack-validator"
-validation_key           "#{cwd}/stack-validator.pem"
-chef_server_url
-"http://chef.your-domain.com/organizations/your-organization-id"
-syntax_check_cache_path File.join(cwd,'syntax_check_cache')
-cookbook_path           [File.join(cwd,'..','site-cookbooks'), File.join(cwd,'..','cookbooks')]
-data_bag_path           File.join(cwd,'..','data_bags')
-role_path               File.join(cwd,'..','roles')
-
-cookbook_copyright "The Startup Stack"
-cookbook_email "avi@avi.io"
-
-knife[:use_sudo]              = true
-knife[:dockerfiles_path]      = "#{cwd}/../dockerfiles"
-knife[:aws_access_key_id]     = ENV.fetch('AWS_ACCESS_KEY_ID', '')
-knife[:aws_secret_access_key] = ENV.fetch('AWS_SECRET_ACCESS_KEY', '')
+client_key               "#{current_dir}/stackadmin.pem"
+validation_client_name   "thestartupstack-validator"
+validation_key           "#{current_dir}/thestartupstack-validator.pem"
+chef_server_url          "https://chef.the-startup-stack.com/organizations/thestartupstack"
+cookbook_path            ["#{current_dir}/../cookbooks"]
 ```
-
-Once you save this file, you should be good to go. You can validate with this command
-
-`bin/knife client list`
-
-If this commands exits with no errors, you are good to go.
-
-### Production Use
-
-In order to use chef in production it is best practice to create a signed SSL
-certificate. This is a pretty easy process on basically every registerator.
-
-Once you have your keys, it's 2 steps to install them and make chef use them.
-
-Direct your DNS server to the chef server say `chef.the-startup-stack.com`
-
-Download the `crt` and `key` file to the server
-
-Lets say you downloaded them to this location:
-
-```bash
-/var/opt/opscode/nginx/ca/chef_the_startup_stack.crt
-/var/opt/opscode/nginx/ca/chef_the_startup_stack.key
-```
-
-Edit `/etc/opscode/chef-server.rb` and put this content
-
-Note: The file should be empty before you add something to it, no worries if
-you don't see anything
-
-```bash
-nginx['ssl_certificate']  = "/var/opt/opscode/nginx/ca/chef_the_startup_stack.crt"
-nginx['ssl_certificate_key']  = "/var/opt/opscode/nginx/ca/chef_the_startup_stack.key"
-```
-
