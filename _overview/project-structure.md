@@ -5,7 +5,7 @@ order: 4
 
 In order to get started, let's first get familiarized with the stack cookbooks.
 
-The [https://github.com/the-startup-stack/stack-cookbooks](cookbooks repo) is actually a bit more then just the cookbooks. It's everything you need to bootstrap your initial cluster.
+The [cookbooks repo](https://github.com/the-startup-stack/stack-cookbooks) is actually a bit more then just the cookbooks. It's everything you need to bootstrap your initial cluster.
 
 ## The Structure
 
