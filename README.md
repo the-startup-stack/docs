@@ -4,6 +4,27 @@
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/the-startup-stack/general)
 
+# Important notice (10-14-16)
+
+Since starting the startup stack the way I work has changed and I always
+thought that the startup stack should represent the way I work in my every-day
+life as a Devops-Engineer.
+
+Since releasing the project I rewrote parts of the infrastructure to work with
+Kubernetes and be "less complicated" in a way.
+
+These coming weeks, I will move more of this work into the main project.
+
+Everything right now should be considered as DEPRECATED until this happens.
+
+Companies that are using the-startup-stack in production already started the
+migration and as we work through some of the challenges more of this will
+become open source.
+
+If you'd like to help, shoot me a message on Twitter, the more people involved
+the faster we can ship this.
+
+
 ## What is "the startup stack"?
 
 The startup stack is an attempt to have sane default, production ready and tested for just about any web-based startup out there.
