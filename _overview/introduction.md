@@ -26,4 +26,4 @@ Let's look at a very common scenario: a startup launches a product on the web an
 
 With infrastructure, there's no "catch all". It's a tailored production, but still, having sane defaults is super important.
 
-For example, when you deploy graphite, the disk size, speed, ports opened, and other configurations will be pre-defined for something that will work long-term in most production evnironments.
+For example, when you deploy graphite, the disk size, speed, ports opened, and other configurations will be pre-defined for something that will work long-term in most production environments.
